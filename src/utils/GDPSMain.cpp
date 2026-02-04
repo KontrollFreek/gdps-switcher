@@ -282,7 +282,7 @@ void GDPSMain::init() {
         m_serverApiId = ServerAPIEvents::registerServer(server.url, -40).id;
     }
 
-    m_serverChangeListener.bind([this](UpdateServerEvent* e) -> geode::ListenerResult {
+    m_serverChangeListener = UpdateServerEvent().listen([this](UpdateServerEventData* e) {
         if (e->m_id != m_serverApiId) {
             m_shouldSaveGameData = false;
         } else {

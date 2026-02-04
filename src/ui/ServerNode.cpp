@@ -9,7 +9,7 @@ bool ServerNode::init(CCSize size, ServerListLayer* list, int index) {
     if (!CCNode::init()) return false;
     m_index = index;
 
-    m_listener.bind([this](LoadDataEvent *event) {
+    m_listener = LoadDataEvent().listen([this](LoadDataEventData* event) {
         updateInfo();
         return ListenerResult::Propagate;
     });

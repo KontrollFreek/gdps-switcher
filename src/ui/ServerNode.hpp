@@ -14,7 +14,7 @@ class ServerNode : public CCNode {
         CCMenu* m_editMenu = nullptr;
         CCMenu* m_useMenu = nullptr;
         ServerListLayer* m_listLayer = nullptr;
-	    geode::EventListener<EventFilter<LoadDataEvent>> m_listener;
+	    geode::ListenerHandle m_listener;
         bool m_editing = false;
 	int m_index;
 

@@ -1,4 +1,5 @@
 #include "ServerInfoManager.hpp"
+#include "Geode/utils/web.hpp"
 #include "utils/GDPSMain.hpp"
 
 using namespace geode::prelude;
@@ -12,12 +13,21 @@ void ServerInfoManager::fetch(GDPSTypes::Server& server) {
         // idk weird stuff
         int id = server.id;
         std::string url = server.url;
-        m_listeners[server.id].bind([this, id, url] (utils::web::WebTask::Event* e) {
-            if (auto res = e->getValue()) {
-                if (res->json().isErr()) {
-                    log::warn("Failed to parse info for {}: {}", url, res->json().err());
+
+        auto req = web::WebRequest();
+
+        std::string endpoint = server.url;
+        if (!endpoint.empty() && endpoint.back() != '/')
+            endpoint += "/";
+        endpoint += "switcher/getInfo.php";
+
+        m_listeners[server.id].spawn(
+            req.get(endpoint),
+            [this, id, url](web::WebResponse value) {
+                if (value.json().isErr()) {
+                    log::warn("Failed to parse info for {}: {}", url, value.json().err());
                 } else {
-                    auto info = res->json().unwrapOrDefault();
+                    auto info = value.json().unwrapOrDefault();
                     GDPSTypes::Server& server = GDPSMain::get()->m_servers[id];
                     server.motd = info["motd"].asString().unwrapOr("No MOTD found.");
                     server.icon = info["icon"].asString().unwrapOr("");
@@ -25,21 +35,15 @@ void ServerInfoManager::fetch(GDPSTypes::Server& server) {
                     // serverData.dependencies = info["mods"]["dependencies"].as<std::map<std::string, std::string>>().unwrapOr(serverData.dependencies);
                     // serverData.modList = info["mods"]["modList"].as<std::vector<std::string>>().unwrapOr(serverData.modList);
                     GDPSMain::get()->save();
-                    LoadDataEvent(server).post();
+                    LoadDataEventData event(server);
+                    LoadDataEvent().send(&event);
                 }
             }
-        });
-
-        auto req = web::WebRequest();
-        std::string endpoint = server.url;
-        if (!endpoint.empty() && endpoint.back() != '/')
-            endpoint += "/";
-        endpoint += "switcher/getInfo.php";
-        m_listeners[server.id].setFilter(req.get(endpoint));
+        );
     }
 }
 
-GDPSTypes::Server& LoadDataEvent::getServer() const {
+GDPSTypes::Server& LoadDataEventData::getServer() const {
     return m_server;
 }
 

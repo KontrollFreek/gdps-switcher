@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Geode/utils/cocos.hpp"
 #include "Types.hpp"
 #include <km7dev.server_api/include/ServerAPIEvents.hpp>
 
@@ -11,7 +12,7 @@
 class GDPSMain {
     friend class GSGManager;
     protected:
-        geode::EventListener<EventFilter<UpdateServerEvent>> m_serverChangeListener;
+        geode::ListenerHandle m_serverChangeListener;
         static GDPSMain *m_instance;
         std::vector<std::string> m_issues = {};
         void init();
