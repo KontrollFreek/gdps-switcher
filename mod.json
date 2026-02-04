@@ -1,12 +1,12 @@
 {
-	"geode": "4.10.0",
+	"geode": "5.0.0-alpha.1",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074",
-		"mac": "2.2074",
-		"ios": "2.2074"
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
 	},
-	"version": "1.4.11",
+	"version": "1.5.0",
 	"id": "km7dev.gdps-switcher",
 	"name": "GDPS Switcher",
 	"developers": ["km7dev", "Alphii"],
@@ -31,7 +31,7 @@
 		}
 	},
 	"dependencies": {
-		"km7dev.server_api": "2.0.2"
+		"km7dev.server_api": "2.2.0"
 	},
 	"incompatibilities": {
 		"capeling.geometry-dash-lunar": {
