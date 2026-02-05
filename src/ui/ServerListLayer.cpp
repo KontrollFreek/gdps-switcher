@@ -303,10 +303,10 @@ void ServerListLayer::keyDown(enumKeyCodes code) {
         {enumKeyCodes::KEY_Enter, enumKeyCodes::CONTROLLER_Start}};
 
     if (m_konamiPos >= sequence.size())
-        return CCLayer::keyDown(code);
+        return CCLayer::keyDown(code, 0);
 
     if (m_konamiPos < 3) {
-        CCLayer::keyDown(code);
+        CCLayer::keyDown(code, 0);
     }
 
     const auto &validCodes = sequence[m_konamiPos];

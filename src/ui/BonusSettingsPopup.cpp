@@ -53,7 +53,9 @@ using namespace geode::prelude;
     m_options.push_back(var); \
     odd = !odd
 
-bool BonusSettingsPopup::setup() {
+bool BonusSettingsPopup::init() {
+    if (!Popup::init(400.f, 280.f)) return false;
+
     m_scroll = ScrollLayer::create({360, 240});
     m_scroll->ignoreAnchorPointForPosition(false);
     m_scroll->setAnchorPoint({.5f, .5f});
@@ -108,7 +110,7 @@ bool BonusSettingsPopup::setup() {
 
 BonusSettingsPopup *BonusSettingsPopup::create() {
     auto ret = new BonusSettingsPopup();
-    if (ret->initAnchored(400.f, 280.f)) {
+    if (ret->init()) {
         ret->autorelease();
         return ret;
     }

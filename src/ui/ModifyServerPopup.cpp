@@ -7,7 +7,9 @@
 #include <km7dev.server_api/include/ServerAPIEvents.hpp>
 #include "../hooks/GManager.hpp"
 
-bool ModifyServerPopup::setup(GDPSTypes::Server server, ServerListLayer * layer) {
+bool ModifyServerPopup::init(GDPSTypes::Server server, ServerListLayer * layer) {
+    if (!Popup::init(300.f, 220.f, "geode.loader/GE_square03.png")) return false;
+
     this->m_listLayer = layer;
     this->m_isNew = server.empty();
     this->m_server = server;
@@ -85,7 +87,7 @@ bool ModifyServerPopup::setup(GDPSTypes::Server server, ServerListLayer * layer)
 
 ModifyServerPopup *ModifyServerPopup::create(GDPSTypes::Server server, ServerListLayer * layer) {
     auto ret = new ModifyServerPopup();
-    if (ret->initAnchored(300.f, 220.f, server, layer, "geode.loader/GE_square03.png")) {
+    if (ret->init(server, layer)) {
         ret->autorelease();
         return ret;
     }

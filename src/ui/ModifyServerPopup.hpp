@@ -12,7 +12,7 @@
 
 using namespace geode::prelude;
 
-class ModifyServerPopup : public Popup<GDPSTypes::Server, ServerListLayer *> {
+class ModifyServerPopup : public Popup {
     protected:
         TextInput *m_nameInput = nullptr;
         TextInput *m_urlInput = nullptr;
@@ -24,7 +24,7 @@ class ModifyServerPopup : public Popup<GDPSTypes::Server, ServerListLayer *> {
 
         bool m_isNew = true;
 
-        bool setup(GDPSTypes::Server server, ServerListLayer * layer) override;
+        bool init(GDPSTypes::Server server, ServerListLayer * layer);
     public:
         virtual void onClose(CCObject *sender) override;
         void onSave(CCObject *sender);

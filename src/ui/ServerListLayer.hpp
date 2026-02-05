@@ -22,7 +22,7 @@ class ServerListLayer : public cocos2d::CCLayer {
         int page = 1;
         int showing = 10;
 
-        void keyDown(cocos2d::enumKeyCodes key) override;
+        void keyDown(cocos2d::enumKeyCodes key);
     public:
         static ServerListLayer *create();
         static cocos2d::CCScene *scene();
